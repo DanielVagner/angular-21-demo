@@ -1,6 +1,5 @@
 import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { ResourceStatus } from '@angular/core';
 
 interface Todo {
   id: number;
@@ -26,18 +25,19 @@ interface User {
         <div class="version-badge">Angular v20 — Experimentální</div>
         <h1>🌐 httpResource()</h1>
         <p>
-          HTTP volání jako Signal. Reaktivně reaguje na změny URL/parametrů,
-          automaticky cancelluje in-flight requesty. Postaveno na <code>HttpClient</code>.
+          HTTP volání jako Signal. Reaktivně reaguje na změny URL/parametrů, automaticky cancelluje
+          in-flight requesty. Postaveno na <code>HttpClient</code>.
         </p>
       </div>
 
       <div class="warning-box">
-        <strong>Experimentální API —</strong> <code>httpResource()</code> je v Angular v20/v21
-        stále experimentální. API se může změnit. Vyžaduje <code>provideHttpClient()</code> v app.config.
+        <strong>Experimentální API —</strong> <code>httpResource()</code> je v Angular v20/v21 stále
+        experimentální. API se může změnit. Vyžaduje <code>provideHttpClient()</code> v app.config.
       </div>
 
       <div class="info-box">
-        <strong>Výhody oproti resource() —</strong> httpResource() automaticky používá <code>HttpClient</code>
+        <strong>Výhody oproti resource() —</strong> httpResource() automaticky používá
+        <code>HttpClient</code>
         (interceptory, testování, caching), parsuje JSON, má built-in abort, reactive URL.
         Nepotřebuješ manuálně volat fetch().
       </div>
@@ -54,7 +54,12 @@ interface User {
           <label>User ID — změna automaticky spustí nový HTTP request</label>
           <div class="id-row">
             @for (id of [1, 2, 3, 4, 5]; track id) {
-              <button class="btn" [class.btn-primary]="selectedUserId() === id" [class.btn-ghost]="selectedUserId() !== id" (click)="selectedUserId.set(id)">
+              <button
+                class="btn"
+                [class.btn-primary]="selectedUserId() === id"
+                [class.btn-ghost]="selectedUserId() !== id"
+                (click)="selectedUserId.set(id)"
+              >
                 User {{ id }}
               </button>
             }
@@ -64,10 +69,26 @@ interface User {
         <div class="status-row">
           <span class="label-small">Status:</span>
           @switch (todosResource.status()) {
-            @case (ResourceStatus.Loading)   { <span class="status-chip status-chip-loading">⏳ Loading</span> }
-            @case (ResourceStatus.Reloading) { <span class="status-chip status-chip-loading">🔄 Reloading</span> }
-            @case (ResourceStatus.Resolved)  { <span class="status-chip status-chip-success">✅ {{ completedCount() }}/{{ todosResource.value()?.length ?? 0 }} splněno</span> }
-            @case (ResourceStatus.Error)     { <span class="status-chip status-chip-error">❌ Error</span> }
+            @case ('loading') {
+              <span class="status-chip status-chip-loading">⏳ Loading</span>
+            }
+            @case ('reloading') {
+              <span class="status-chip status-chip-loading">🔄 Reloading</span>
+            }
+            @case ('resolved') {
+              <span class="status-chip status-chip-success"
+                >✅ {{ completedCount() }}/{{ todosResource.value()?.length ?? 0 }} splněno</span
+              >
+            }
+            @case ('error') {
+              <span class="status-chip status-chip-error">❌ Error</span>
+            }
+            @case ('idle') {
+              <span class="status-chip status-chip-idle">💤 Idle</span>
+            }
+            @case ('local') {
+              <span class="status-chip status-chip-success">✏️ Local</span>
+            }
           }
           <span class="label-small">URL:</span>
           <code class="url-display">{{ currentUrl() }}</code>
@@ -75,7 +96,9 @@ interface User {
 
         <div class="todos-list">
           @if (todosResource.isLoading()) {
-            @for (s of [1,2,3,4,5]; track s) { <div class="skeleton"></div> }
+            @for (s of [1, 2, 3, 4, 5]; track s) {
+              <div class="skeleton"></div>
+            }
           }
           @for (todo of (todosResource.value() ?? []).slice(0, 8); track todo.id) {
             <div class="todo-item" [class.done]="todo.completed">
@@ -93,7 +116,7 @@ interface User {
 
 // httpResource — reaktivní URL (signal ve funkci)
 todosResource = <span style="color:#d2a8ff">httpResource</span>&lt;Todo[]&gt;(
-  () => `https://jsonplaceholder.typicode.com/todos?userId=$&#123;this.selectedUserId()&#125;`
+  () => \`https://jsonplaceholder.typicode.com/todos?userId=$&#123;this.selectedUserId()&#125;\`
 );
 
 // Přístup ke stavům (stejné jako resource()):
@@ -110,9 +133,9 @@ todosResource.error()     // unknown</pre>
 
       <pre class="code-block">// httpResource s plným request objektem
 userResource = <span style="color:#d2a8ff">httpResource</span>&lt;User&gt;(&#123;
-  url: () => `/api/users/$&#123;this.userId()&#125;`,
+  url: () => \`/api/users/$&#123;this.userId()&#125;\`,
   method: 'GET',
-  headers: &#123; 'Authorization': `Bearer $&#123;this.token()&#125;` &#125;
+  headers: &#123; 'Authorization': \`Bearer $&#123;this.token()&#125;\` &#125;
 &#125;);
 
 // POST:
@@ -154,52 +177,156 @@ bufRes  = <span style="color:#d2a8ff">httpResource</span>.arrayBuffer('/api/bina
       </div>
     </div>
   `,
-  styles: [`
-    .controls { margin-bottom:0.75rem; }
-    .id-row { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.4rem; }
-    .status-row { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.75rem; font-size:0.85rem; color:var(--text-muted); }
-    .label-small { font-size:0.78rem; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; }
-    .url-display { font-family:'Fira Code',monospace; font-size:0.78rem; color:#60a5fa; background:var(--code); padding:0.2rem 0.5rem; border-radius:4px; }
-    .todos-list { display:flex; flex-direction:column; gap:0.35rem; max-height:280px; overflow-y:auto; }
-    .todo-item { display:flex; align-items:center; gap:0.75rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:0.5rem 0.75rem; font-size:0.85rem; &.done { opacity:0.5; } }
-    .todo-check { flex-shrink:0; }
-    .todo-title { color:var(--text-muted); }
-    .todo-item.done .todo-title { text-decoration:line-through; }
-    .more-hint { font-size:0.78rem; color:var(--text-dim); text-align:center; padding:0.4rem; }
-    .skeleton { height:38px; background:linear-gradient(90deg,var(--surface) 25%,var(--card) 50%,var(--surface) 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:6px; border:1px solid var(--border); }
-    @keyframes shimmer { 0%{background-position:200%} 100%{background-position:-200%} }
-    .compare-table { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-top:1rem; }
-    .ct-header, .ct-row { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:0; }
-    .ct-header { background:var(--surface); font-size:0.78rem; font-weight:700; text-transform:uppercase; color:var(--text-dim); letter-spacing:0.06em; }
-    .ct-header > *, .ct-row > * { padding:0.6rem 0.9rem; border-bottom:1px solid var(--border); }
-    .ct-row:last-child > * { border-bottom:none; }
-    .ct-label { font-size:0.85rem; font-weight:500; color:var(--text-muted); }
-    .ct-row > :not(.ct-label) { font-size:0.82rem; color:var(--text-muted); }
-  `]
+  styles: [
+    `
+      .controls {
+        margin-bottom: 0.75rem;
+      }
+      .id-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.4rem;
+      }
+      .status-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+      .label-small {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .url-display {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.78rem;
+        color: #60a5fa;
+        background: var(--code);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+      }
+      .todos-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-height: 280px;
+        overflow-y: auto;
+      }
+      .todo-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        &.done {
+          opacity: 0.5;
+        }
+      }
+      .todo-check {
+        flex-shrink: 0;
+      }
+      .todo-title {
+        color: var(--text-muted);
+      }
+      .todo-item.done .todo-title {
+        text-decoration: line-through;
+      }
+      .more-hint {
+        font-size: 0.78rem;
+        color: var(--text-dim);
+        text-align: center;
+        padding: 0.4rem;
+      }
+      .skeleton {
+        height: 38px;
+        background: linear-gradient(90deg, var(--surface) 25%, var(--card) 50%, var(--surface) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200%;
+        }
+        100% {
+          background-position: -200%;
+        }
+      }
+      .compare-table {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 1rem;
+      }
+      .ct-header,
+      .ct-row {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 0;
+      }
+      .ct-header {
+        background: var(--surface);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        letter-spacing: 0.06em;
+      }
+      .ct-header > *,
+      .ct-row > * {
+        padding: 0.6rem 0.9rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .ct-row:last-child > * {
+        border-bottom: none;
+      }
+      .ct-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+      .ct-row > :not(.ct-label) {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+    `,
+  ],
 })
 export class HttpResourceDemoComponent {
-  readonly ResourceStatus = ResourceStatus;
-
   selectedUserId = signal(1);
 
-  currentUrl = computed(() =>
-    `...todos?userId=${this.selectedUserId()}`
-  );
+  currentUrl = computed(() => `...todos?userId=${this.selectedUserId()}`);
 
   todosResource = httpResource<Todo[]>(
-    () => `https://jsonplaceholder.typicode.com/todos?userId=${this.selectedUserId()}`
+    () => `https://jsonplaceholder.typicode.com/todos?userId=${this.selectedUserId()}`,
   );
 
-  completedCount = computed(() =>
-    (this.todosResource.value() ?? []).filter(t => t.completed).length
+  completedCount = computed(
+    () => (this.todosResource.value() ?? []).filter((t) => t.completed).length,
   );
 
   comparison = [
-    { label: 'Transport',       resource: 'fetch() / vlastní',  http: 'HttpClient' },
-    { label: 'Interceptory',    resource: '❌',                  http: '✅ plná podpora' },
-    { label: 'Testing (mock)',  resource: '❌ manuální',         http: '✅ HttpTestingController' },
-    { label: 'JSON parsing',    resource: 'manuální',            http: 'automatické' },
-    { label: 'Abort',           resource: 'abortSignal v loader',http: 'automatické' },
-    { label: 'Kdy použít',      resource: 'WebSocket, IndexedDB, vlastní async', http: 'REST API, HTTP volání' },
+    { label: 'Transport', resource: 'fetch() / vlastní', http: 'HttpClient' },
+    { label: 'Interceptory', resource: '❌', http: '✅ plná podpora' },
+    { label: 'Testing (mock)', resource: '❌ manuální', http: '✅ HttpTestingController' },
+    { label: 'JSON parsing', resource: 'manuální', http: 'automatické' },
+    { label: 'Abort', resource: 'abortSignal v loader', http: 'automatické' },
+    {
+      label: 'Kdy použít',
+      resource: 'WebSocket, IndexedDB, vlastní async',
+      http: 'REST API, HTTP volání',
+    },
   ];
 }

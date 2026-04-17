@@ -15,21 +15,21 @@ interface User {
     <div class="demo-page">
       <div class="page-header">
         <div class="version-badge">Angular v17+ · Vylepšeno v19</div>
-        <h1>🔀 Control Flow + @defer</h1>
+        <h1>🔀 Control Flow + &#64;defer</h1>
         <p>
           Nová built-in template syntaxe nahrazuje <code>*ngIf</code>, <code>*ngFor</code>, <code>NgSwitch</code>.
-          V Angular v19 přibyly <strong>hydration triggery pro @defer</strong>.
+          V Angular v19 přibyly <strong>hydration triggery pro &#64;defer</strong>.
         </p>
       </div>
 
       <!-- @if -->
       <div class="section-title">
-        @if / @else if / @else
+        &#64;if / &#64;else if / &#64;else
         <span class="tag tag-stable">stable</span>
       </div>
       <div class="info-box">
         <strong>Proč lepší než *ngIf? —</strong> Výkon (kompilátor generuje menší kód), čitelnější template,
-        bez nutnosti importovat <code>NgIf</code>, @else if bez extra direktivy.
+        bez nutnosti importovat <code>NgIf</code>, &#64;else if bez extra direktivy.
       </div>
       <div class="live-demo">
         <h4>Live demo</h4>
@@ -52,17 +52,17 @@ interface User {
           }
         </div>
       </div>
-      <pre class="code-block">@if (role === 'admin') &#123;
+      <pre class="code-block">&#64;if (role === 'admin') &#123;
   &lt;div&gt;Plný přístup&lt;/div&gt;
-&#125; @else if (role === 'editor') &#123;
+&#125; &#64;else if (role === 'editor') &#123;
   &lt;div&gt;Editor&lt;/div&gt;
-&#125; @else &#123;
+&#125; &#64;else &#123;
   &lt;div&gt;Viewer&lt;/div&gt;
 &#125;</pre>
 
-      <!-- @for -->
+      <!-- &#64;for -->
       <div class="section-title">
-        @for s track + $index, $first, $last, $odd, $even
+        &#64;for s track + $index, $first, $last, $odd, $even
         <span class="tag tag-stable">stable</span>
       </div>
       <div class="live-demo">
@@ -86,14 +86,14 @@ interface User {
           }
         </div>
       </div>
-      <pre class="code-block">@for (user of users; track user.id; let i = $index; let first = $first) &#123;
-  &lt;div&gt;#&#123;&#123;i+1&#125;&#125; &#123;&#123;user.name&#125;&#125;&lt;/div&gt;
-&#125; @empty &#123;
+      <pre class="code-block">&#64;for (user of users; track user.id; let i = $index; let first = $first) &#123;
+  &lt;div&gt;#{{ '{{' }}i+1{{ '}}' }} {{ '{{' }}user.name{{ '}}' }}&lt;/div&gt;
+&#125; &#64;empty &#123;
   &lt;div&gt;Žádní uživatelé&lt;/div&gt;
 &#125;</pre>
 
-      <!-- @switch -->
-      <div class="section-title">@switch</div>
+      <!-- &#64;switch -->
+      <div class="section-title">&#64;switch</div>
       <div class="live-demo">
         <h4>Live demo</h4>
         <div class="btn-row">
@@ -109,58 +109,58 @@ interface User {
         }
       </div>
 
-      <!-- @defer -->
+      <!-- &#64;defer -->
       <div class="section-title">
-        @defer — lazy loading + hydration triggery
+        &#64;defer — lazy loading + hydration triggery
         <span class="tag tag-new">v19 nové triggery</span>
       </div>
       <div class="info-box">
-        <strong>v19 hydration triggery —</strong> Nový <code>@defer (hydrate on ...)</code> blok umožňuje
+        <strong>v19 hydration triggery —</strong> Nový <code>&#64;defer (hydrate on ...)</code> blok umožňuje
         selektivní hydrataci server-side rendered komponent. Lazy loading se spustí na základě uživatelské interakce.
       </div>
 
       <pre class="code-block">// on idle — načti když je prohlížeč volný
-@defer (on idle) &#123;
+&#64;defer (on idle) &#123;
   &lt;heavy-component /&gt;
-&#125; @placeholder &#123;
+&#125; &#64;placeholder &#123;
   &lt;div&gt;Placeholder...&lt;/div&gt;
-&#125; @loading (minimum 300ms) &#123;
+&#125; &#64;loading (minimum 300ms) &#123;
   &lt;spinner /&gt;
-&#125; @error &#123;
+&#125; &#64;error &#123;
   &lt;div&gt;Chyba při načítání&lt;/div&gt;
 &#125;
 
 // on viewport — načti když je viditelný
-@defer (on viewport) &#123; ... &#125;
+&#64;defer (on viewport) &#123; ... &#125;
 
 // on interaction — načti při kliknutí
-@defer (on interaction(btn)) &#123; ... &#125;
+&#64;defer (on interaction(btn)) &#123; ... &#125;
 
 // when — načti když je podmínka true
-@defer (when isLoggedIn()) &#123; ... &#125;
+&#64;defer (when isLoggedIn()) &#123; ... &#125;
 
 // prefetch — přednačti ale zobraz až později
-@defer (on viewport; prefetch on idle) &#123; ... &#125;
+&#64;defer (on viewport; prefetch on idle) &#123; ... &#125;
 
 // 🔥 NOVÉ v19 — hydration triggery pro SSR
-@defer (hydrate on viewport) &#123; ... &#125;
-@defer (hydrate on interaction) &#123; ... &#125;
-@defer (hydrate when condition()) &#123; ... &#125;
-@defer (hydrate never) &#123; ... &#125;  // zůstane static HTML</pre>
+&#64;defer (hydrate on viewport) &#123; ... &#125;
+&#64;defer (hydrate on interaction) &#123; ... &#125;
+&#64;defer (hydrate when condition()) &#123; ... &#125;
+&#64;defer (hydrate never) &#123; ... &#125;  // zůstane static HTML</pre>
 
       <div class="live-demo">
-        <h4>Live demo — @defer (when condition)</h4>
+        <h4>Live demo — &#64;defer (when condition)</h4>
         <div class="defer-state">
           Stav: <span class="status-chip" [class]="'status-chip-' + deferState()">{{ deferState() }}</span>
         </div>
         <div class="btn-row">
-          <button class="btn btn-primary" (click)="showDeferred.set(true)">Spustit @defer</button>
+          <button class="btn btn-primary" (click)="showDeferred.set(true)">Spustit &#64;defer</button>
           <button class="btn btn-ghost" (click)="showDeferred.set(false)">Reset</button>
         </div>
 
         @defer (when showDeferred()) {
           <div class="deferred-content">
-            🎉 Tento blok byl lazy-loaded přes <code>@defer (when showDeferred())</code>
+            🎉 Tento blok byl lazy-loaded přes <code>&#64;defer (when showDeferred())</code>
           </div>
         } @placeholder {
           <div class="placeholder-block">📋 Placeholder — viditelný před spuštěním defer</div>

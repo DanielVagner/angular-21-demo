@@ -141,10 +141,10 @@ myForm = form(this.model, (f) => &#123;
               [formField]="regForm.password"
               placeholder="min. 8 znaků"
             />
-            @if (regForm.password().dirty() && regForm.password().errors()?.['required']) {
+            @if (regForm.password().dirty() && regForm.password().errors().some(e => e.kind === 'required')) {
               <div class="error-msg">⚠ Heslo je povinné</div>
             }
-            @if (regForm.password().dirty() && regForm.password().errors()?.['minLength']) {
+            @if (regForm.password().dirty() && regForm.password().errors().some(e => e.kind === 'minLength')) {
               <div class="error-msg">⚠ Minimálně 8 znaků</div>
             }
           </div>
