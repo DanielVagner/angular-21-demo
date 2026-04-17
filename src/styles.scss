@@ -1,0 +1,284 @@
+:root {
+  --bg: #0f1117;
+  --surface: #161b27;
+  --card: #1e2535;
+  --card-hover: #242b3d;
+  --border: #2d3748;
+  --accent: #dd0031;
+  --accent-hover: #ff1744;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --code: #0d1117;
+  --green: #22c55e;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.demo-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2.5rem;
+
+  .version-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  p { color: var(--text-muted); font-size: 1.05rem; max-width: 600px; }
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.demo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s, background 0.2s;
+
+  &:hover { background: var(--card-hover); border-color: var(--accent); }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.5; }
+}
+
+.code-block {
+  background: var(--code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 1rem 0;
+  color: #e2e8f0;
+  white-space: pre;
+}
+
+.live-demo {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.25rem 0;
+
+  h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+
+  &-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    &:hover { background: var(--accent-hover); }
+  }
+
+  &-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+    &:hover { background: var(--card); }
+  }
+
+  &-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: var(--border);
+    &:hover { color: var(--text); background: var(--card); }
+  }
+
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.75rem 0; }
+
+.value-display {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 60px;
+  justify-content: center;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &-stable { background: rgba(34,197,94,0.15); color: var(--green); }
+    &-experimental { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    &-new { background: rgba(221,0,49,0.15); color: var(--accent); }
+  }
+}
+
+.input-field {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  &:focus { border-color: var(--accent); }
+}
+
+.error-msg { color: var(--red); font-size: 0.8rem; margin-top: 0.25rem; }
+.success-msg { color: var(--green); font-size: 0.8rem; margin-top: 0.25rem; }
+
+.info-box {
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: #93c5fd;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+  strong { color: #bfdbfe; }
+}
+
+.warning-box {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: #fcd34d;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+  strong { color: #fde68a; }
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  &-loading { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  &-success  { background: rgba(34,197,94,0.15);  color: var(--green); }
+  &-error    { background: rgba(239,68,68,0.15);   color: var(--red); }
+  &-idle     { background: rgba(100,116,139,0.15); color: var(--text-dim); }
+}
+
+label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.35rem; }

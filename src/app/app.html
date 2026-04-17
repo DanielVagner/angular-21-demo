@@ -1,0 +1,57 @@
+<div class="shell">
+  <aside class="sidebar" [class.open]="navOpen()">
+    <div class="sidebar-header">
+      <div class="logo">
+        <svg width="26" height="26" viewBox="0 0 250 250" fill="none">
+          <polygon points="125,20 235,75 235,175 125,230 15,175 15,75" fill="#dd0031"/>
+          <polygon points="125,48 210,88 210,162 125,202 40,162 40,88" fill="#c3002f"/>
+          <polygon points="125,68 125,182 83,158 83,92" fill="white" opacity="0.9"/>
+          <polygon points="125,68 125,182 167,158 167,92" fill="white" opacity="0.55"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-title">Angular Demo</span>
+          <span class="logo-sub">v18 → v21</span>
+        </div>
+      </div>
+      <button class="close-btn" (click)="navOpen.set(false)" aria-label="Zavřít menu">✕</button>
+    </div>
+
+    <p class="sidebar-desc">
+      Prezentace nových technologií — navazuje na <strong>Angular v17 demo</strong> (Signals, Defer).
+    </p>
+
+    <nav>
+      @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+          class="nav-item"
+          (click)="navOpen.set(false)"
+        >
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+          <span class="nav-ver" [class]="'ver-' + item.versionClass">{{ item.version }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">Angular CLI <strong>21.1.0</strong> · Node <strong>22</strong></div>
+  </aside>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="hamburger" (click)="navOpen.set(true)" aria-label="Otevřít menu">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="topbar-title">Angular v18–v21 · Nové technologie</span>
+    </header>
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+
+  @if (navOpen()) {
+    <div class="overlay" (click)="navOpen.set(false)"></div>
+  }
+</div>
