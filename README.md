@@ -1,138 +1,138 @@
 # Angular 21 Demo
 
-Tento projekt je prezentační a školící Angular aplikace, která navazuje na dřívější demo a školení k Angularu 17. Zatímco předchozí materiály se soustředily hlavně na první seznámení se `Signals`, `@defer` a novým `Control Flow`, tato verze dělá souhrn toho nejdůležitějšího z novějších verzí Angularu od v18 až po v21.
+This project is a presentation and training Angular application that builds on an earlier Angular 17 demo and training session. While the previous materials focused mainly on a first introduction to `Signals`, `@defer`, and the new `Control Flow`, this version provides a summary of the most important changes in newer Angular releases from v18 up to v21.
 
-Cílem projektu je ukázat, co se od Angularu 17 posunulo dál, co už je dnes stabilní, co je stále experimentální a jak tyto novinky vypadají v praxi na malých, samostatných a snadno vysvětlitelných ukázkách.
+The goal of the project is to show what has evolved since Angular 17, what is stable today, what is still experimental, and what these new features look like in practice through small, self-contained, and easy-to-explain examples.
 
-## Co projekt ukazuje
+## What the Project Covers
 
-Projekt je postavený jako standalone Angular aplikace s routovanými demo stránkami. V kódu najdeš hlavně tyto oblasti:
+The project is built as a standalone Angular application with routed demo pages. In the codebase, you will mainly find these areas:
 
-- `Signals` jako stabilní reaktivní API v Angularu 20: `signal()`, `computed()`, `effect()`, `input()`, `output()`, `model()` a `viewChild()`
-- nový template `Control Flow`: `@if`, `@for`, `@switch`
-- `@defer` a jeho použití pro lazy loading a odložené vykreslování
-- `linkedSignal()` pro odvoditelný, ale přepisovatelný stav
-- `resource()` pro reaktivní práci s asynchronními daty
-- `httpResource()` jako signal-based vrstvu nad HTTP voláním
-- `Signal Forms` z Angularu 21 jako nový experimentální přístup k formulářům
-- standalone aplikaci bez `NgModule`
-- `provideZonelessChangeDetection()` a moderní konfiguraci aplikace přes `app.config.ts`
+- `Signals` as a stable reactive API in Angular 20: `signal()`, `computed()`, `effect()`, `input()`, `output()`, `model()`, and `viewChild()`
+- the new `Control Flow` template syntax: `@if`, `@for`, `@switch`
+- `@defer` and its use for lazy loading and deferred rendering
+- `linkedSignal()` for derived but overridable state
+- `resource()` for reactive async data handling
+- `httpResource()` as a signal-based layer over HTTP calls
+- `Signal Forms` in Angular 21 as a new experimental approach to forms
+- a standalone application without `NgModule`
+- `provideZonelessChangeDetection()` and modern application configuration via `app.config.ts`
 
-## Co v aplikaci uživatel najde
+## What Users Will Find in the App
 
-Po spuštění aplikace je k dispozici přehledová stránka a několik samostatných demo sekcí:
+After starting the application, users will see an overview page and several standalone demo sections:
 
-- `Přehled`
-  Stručná časová osa verzí Angular 18 až 21 a rozcestník na jednotlivé ukázky.
+- `Overview`
+  A short timeline of Angular versions 18 through 21 and a navigation hub for the individual demos.
 
 - `Signals`
-  Praktické ukázky základních signal primitives, odvozených hodnot, side effects a nového component API přes `input()`, `output()`, `model()` a `viewChild()`.
+  Practical examples of the core signal primitives, derived values, side effects, and the new component API through `input()`, `output()`, `model()`, and `viewChild()`.
 
 - `Control Flow`
-  Ukázky nové template syntaxe `@if`, `@for`, `@switch` a doplnění o `@defer`.
+  Examples of the new template syntax `@if`, `@for`, `@switch`, extended with `@defer`.
 
 - `linkedSignal()`
-  Vysvětlení rozdílu mezi `computed()` a `linkedSignal()` na jednoduchém i realističtějším scénáři.
+  An explanation of the difference between `computed()` and `linkedSignal()` through both a simple and a more realistic scenario.
 
 - `resource()`
-  Reaktivní načítání dat, stavové přechody typu loading/resolved/error/reloading a ruční `reload()`.
+  Reactive data loading, state transitions such as loading/resolved/error/reloading, and manual `reload()`.
 
 - `httpResource()`
-  Ukázka signal-based HTTP volání nad `HttpClient`, včetně reaktivní URL a srovnání s `resource()`.
+  A signal-based HTTP example built on top of `HttpClient`, including reactive URLs and a comparison with `resource()`.
 
 - `Signal Forms`
-  Experimentální formuláře nad `@angular/forms/signals`, validace přes schema-like API a binding přes `[formField]`.
+  Experimental forms built on `@angular/forms/signals`, validation through a schema-like API, and binding through `[formField]`.
 
-## Technologie a charakter projektu
+## Technology and Project Characteristics
 
 - Angular CLI `21.1.0`
 - Angular framework `21.1.x`
 - TypeScript `5.9`
-- SCSS styly
-- standalone komponenty a lazy-loaded routy
+- SCSS styling
+- standalone components and lazy-loaded routes
 - zoneless change detection
-- test runner přes `ng test`
+- test runner through `ng test`
 
-Některé ukázky sahají na veřejné demo API `https://jsonplaceholder.typicode.com`, konkrétně stránky pro `resource()` a `httpResource()`. Pro jejich plnou funkčnost je tedy potřeba internetové připojení.
+Some demos use the public demo API at `https://jsonplaceholder.typicode.com`, specifically the pages for `resource()` and `httpResource()`. For full functionality, an internet connection is therefore required.
 
-## Požadavky
+## Requirements
 
-Doporučené prostředí podle projektu:
+Recommended environment based on the project:
 
 - Node.js `22`
 - npm `10`
 
-## Instalace
+## Installation
 
 ```bash
 npm install
 ```
 
-## Spuštění vývojového serveru
+## Running the Development Server
 
 ```bash
 npm start
 ```
 
-Aplikace poběží standardně na:
+The application will run by default at:
 
 ```text
 http://localhost:4200/
 ```
 
-Při změně zdrojových souborů se aplikace automaticky přenačte.
+When source files change, the application reloads automatically.
 
-## Build projektu
+## Building the Project
 
-Produkční build:
+Production build:
 
 ```bash
 npm run build
 ```
 
-Výstup se uloží do adresáře:
+The output is stored in:
 
 ```text
 dist/
 ```
 
-Průběžný build ve watch režimu:
+Continuous build in watch mode:
 
 ```bash
 npm run watch
 ```
 
-## Testy
+## Tests
 
-Spuštění unit testů:
+Run unit tests with:
 
 ```bash
 npm test
 ```
 
-Projekt používá Angular test builder a v závislostech je připravený `Vitest`.
+The project uses the Angular test builder, and `Vitest` is included in the dependencies.
 
-## Struktura projektu
+## Project Structure
 
-Nejdůležitější soubory a složky:
+The most important files and folders:
 
 - `src/app/app.config.ts`
-  Konfigurace aplikace, routeru, HTTP klienta a zoneless change detection.
+  Application, router, HTTP client, and zoneless change detection configuration.
 
 - `src/app/app.routes.ts`
-  Definice jednotlivých demo stránek.
+  Route definitions for the individual demo pages.
 
 - `src/app/pages/`
-  Samotné ukázky novinek z Angularu 18 až 21.
+  The actual feature demos covering Angular 18 through 21.
 
 - `src/styles.scss`
-  Sdílené vizuální styly celé demo aplikace.
+  Shared visual styling for the entire demo application.
 
-## Pro koho je projekt určený
+## Intended Audience
 
-Projekt je vhodný jako:
+This project works well as:
 
-- podklad ke školení nebo interní prezentaci
-- rychlý přehled novinek od Angularu 18 do Angularu 21
-- praktická sada malých demo ukázek nad moderním Angular API
-- startovní bod pro tým, který přechází ze staršího Angularu na novější verze
+- material for training or an internal presentation
+- a quick overview of Angular updates from version 18 to version 21
+- a practical collection of small demos built on modern Angular APIs
+- a starting point for teams moving from older Angular versions to newer ones
