@@ -1,59 +1,138 @@
-# Angular21Demo
+# Angular 21 Demo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
+Tento projekt je prezentační a školící Angular aplikace, která navazuje na dřívější demo a školení k Angularu 17. Zatímco předchozí materiály se soustředily hlavně na první seznámení se `Signals`, `@defer` a novým `Control Flow`, tato verze dělá souhrn toho nejdůležitějšího z novějších verzí Angularu od v18 až po v21.
 
-## Development server
+Cílem projektu je ukázat, co se od Angularu 17 posunulo dál, co už je dnes stabilní, co je stále experimentální a jak tyto novinky vypadají v praxi na malých, samostatných a snadno vysvětlitelných ukázkách.
 
-To start a local development server, run:
+## Co projekt ukazuje
+
+Projekt je postavený jako standalone Angular aplikace s routovanými demo stránkami. V kódu najdeš hlavně tyto oblasti:
+
+- `Signals` jako stabilní reaktivní API v Angularu 20: `signal()`, `computed()`, `effect()`, `input()`, `output()`, `model()` a `viewChild()`
+- nový template `Control Flow`: `@if`, `@for`, `@switch`
+- `@defer` a jeho použití pro lazy loading a odložené vykreslování
+- `linkedSignal()` pro odvoditelný, ale přepisovatelný stav
+- `resource()` pro reaktivní práci s asynchronními daty
+- `httpResource()` jako signal-based vrstvu nad HTTP voláním
+- `Signal Forms` z Angularu 21 jako nový experimentální přístup k formulářům
+- standalone aplikaci bez `NgModule`
+- `provideZonelessChangeDetection()` a moderní konfiguraci aplikace přes `app.config.ts`
+
+## Co v aplikaci uživatel najde
+
+Po spuštění aplikace je k dispozici přehledová stránka a několik samostatných demo sekcí:
+
+- `Přehled`
+  Stručná časová osa verzí Angular 18 až 21 a rozcestník na jednotlivé ukázky.
+
+- `Signals`
+  Praktické ukázky základních signal primitives, odvozených hodnot, side effects a nového component API přes `input()`, `output()`, `model()` a `viewChild()`.
+
+- `Control Flow`
+  Ukázky nové template syntaxe `@if`, `@for`, `@switch` a doplnění o `@defer`.
+
+- `linkedSignal()`
+  Vysvětlení rozdílu mezi `computed()` a `linkedSignal()` na jednoduchém i realističtějším scénáři.
+
+- `resource()`
+  Reaktivní načítání dat, stavové přechody typu loading/resolved/error/reloading a ruční `reload()`.
+
+- `httpResource()`
+  Ukázka signal-based HTTP volání nad `HttpClient`, včetně reaktivní URL a srovnání s `resource()`.
+
+- `Signal Forms`
+  Experimentální formuláře nad `@angular/forms/signals`, validace přes schema-like API a binding přes `[formField]`.
+
+## Technologie a charakter projektu
+
+- Angular CLI `21.1.0`
+- Angular framework `21.1.x`
+- TypeScript `5.9`
+- SCSS styly
+- standalone komponenty a lazy-loaded routy
+- zoneless change detection
+- test runner přes `ng test`
+
+Některé ukázky sahají na veřejné demo API `https://jsonplaceholder.typicode.com`, konkrétně stránky pro `resource()` a `httpResource()`. Pro jejich plnou funkčnost je tedy potřeba internetové připojení.
+
+## Požadavky
+
+Doporučené prostředí podle projektu:
+
+- Node.js `22`
+- npm `10`
+
+## Instalace
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Spuštění vývojového serveru
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Aplikace poběží standardně na:
+
+```text
+http://localhost:4200/
+```
+
+Při změně zdrojových souborů se aplikace automaticky přenačte.
+
+## Build projektu
+
+Produkční build:
 
 ```bash
-ng generate --help
+npm run build
 ```
 
-## Building
+Výstup se uloží do adresáře:
 
-To build the project run:
+```text
+dist/
+```
+
+Průběžný build ve watch režimu:
 
 ```bash
-ng build
+npm run watch
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Testy
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Spuštění unit testů:
 
 ```bash
-ng test
+npm test
 ```
 
-## Running end-to-end tests
+Projekt používá Angular test builder a v závislostech je připravený `Vitest`.
 
-For end-to-end (e2e) testing, run:
+## Struktura projektu
 
-```bash
-ng e2e
-```
+Nejdůležitější soubory a složky:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- `src/app/app.config.ts`
+  Konfigurace aplikace, routeru, HTTP klienta a zoneless change detection.
 
-## Additional Resources
+- `src/app/app.routes.ts`
+  Definice jednotlivých demo stránek.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/app/pages/`
+  Samotné ukázky novinek z Angularu 18 až 21.
+
+- `src/styles.scss`
+  Sdílené vizuální styly celé demo aplikace.
+
+## Pro koho je projekt určený
+
+Projekt je vhodný jako:
+
+- podklad ke školení nebo interní prezentaci
+- rychlý přehled novinek od Angularu 18 do Angularu 21
+- praktická sada malých demo ukázek nad moderním Angular API
+- startovní bod pro tým, který přechází ze staršího Angularu na novější verze
